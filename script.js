@@ -3,25 +3,18 @@ const sunIcon = document.getElementById('sun-icon');
 const moonIcon = document.getElementById('moon-icon');
 const body = document.body;
 
-function updateIcons(isDark) {
-    if (isDark) {
-        sunIcon.classList.remove('hidden');
-        moonIcon.classList.add('hidden');
-    } else {
-        sunIcon.classList.add('hidden');
-        moonIcon.classList.remove('hidden');
-    }
+function applyTheme(isDark) {
+    body.classList.toggle('dark-mode', isDark);
+    sunIcon.classList.toggle('hidden', !isDark);
+    moonIcon.classList.toggle('hidden', isDark);
 }
 
-// Dark is default; only switch to light if explicitly saved
-if (localStorage.getItem('theme') === 'light') {
-    body.classList.remove('dark-mode');
-    updateIcons(false);
-}
+// Default dark; respect saved preference
+const saved = localStorage.getItem('theme');
+applyTheme(saved !== 'light');
 
 toggleBtn.addEventListener('click', () => {
-    body.classList.toggle('dark-mode');
-    const isDark = body.classList.contains('dark-mode');
+    const isDark = !body.classList.contains('dark-mode');
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    updateIcons(isDark);
+    applyTheme(isDark);
 });
