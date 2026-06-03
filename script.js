@@ -5,27 +5,23 @@ const body = document.body;
 
 function updateIcons(isDark) {
     if (isDark) {
-        // In Dark Mode, show Sun to go back to Light
         sunIcon.classList.remove('hidden');
         moonIcon.classList.add('hidden');
     } else {
-        // In Light Mode, show Moon to go to Dark
         sunIcon.classList.add('hidden');
         moonIcon.classList.remove('hidden');
     }
 }
 
-// Load saved theme from localStorage
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme === 'dark') {
-    body.classList.add('dark-mode');
-    updateIcons(true);
+// Dark is default; only switch to light if explicitly saved
+if (localStorage.getItem('theme') === 'light') {
+    body.classList.remove('dark-mode');
+    updateIcons(false);
 }
 
 toggleBtn.addEventListener('click', () => {
     body.classList.toggle('dark-mode');
     const isDark = body.classList.contains('dark-mode');
-
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
     updateIcons(isDark);
 });
